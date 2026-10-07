@@ -1,4 +1,4 @@
-import {chromium} from '@playwright/test';
+import {chromium,expect} from '@playwright/test';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 const origin=process.env.PORTFOLIO_TEST_ORIGIN || 'http://127.0.0.1:3100';
@@ -15,13 +15,13 @@ await page.waitForFunction(()=>[...document.images].every(i=>i.complete));
 await page.screenshot({path:'qa/home-desktop.png'});
 await page.screenshot({path:'qa/home-full.png',fullPage:true});
 await page.getByRole('button',{name:'Enclosure',exact:true}).click();
-assert.equal(await page.getByRole('button',{name:'Enclosure',exact:true}).getAttribute('aria-pressed'),'true');
+await expect(page.getByRole('button',{name:'Enclosure',exact:true})).toHaveAttribute('aria-pressed','true');
 await page.getByRole('button',{name:'Control PCB',exact:true}).click();
-assert.equal(await page.getByRole('button',{name:'Control PCB',exact:true}).getAttribute('aria-pressed'),'true');
+await expect(page.getByRole('button',{name:'Control PCB',exact:true})).toHaveAttribute('aria-pressed','true');
 await page.getByRole('button',{name:'Mechanical',exact:true}).click();
-assert.equal(await page.locator('.project-tile').count(),2);
+await expect(page.locator('.project-tile')).toHaveCount(2);
 await page.getByRole('button',{name:'All work',exact:true}).click();
-assert.equal(await page.locator('.project-tile').count(),7);
+await expect(page.locator('.project-tile')).toHaveCount(7);
 await page.locator('a.project-tile[href$="/projects/tof-slam/"]').click();await page.waitForURL('**/projects/tof-slam/');await page.getByRole('heading',{name:'ToF SLAM mobile robot',exact:true}).waitFor();
 await page.locator('a.all-files').click();await page.waitForURL('**/archive/?project=tof-slam');await page.waitForFunction(()=>document.querySelector('select')?.value==='tof-slam');
 for(const slug of ['tof-slam','modified-iron','flod-hopper','sense-oil','pcb-first','pcb-advanced','posture-research']){

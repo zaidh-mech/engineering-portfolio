@@ -13,9 +13,12 @@ Open the URL printed by Next.js. For a production build, run `npm run build`; th
 
 ## Portfolio content
 
-- Interactive ToF robot assembly, enclosure and PCB views.
+- Open ToF robot inspector with pointer response, switchable assembly/enclosure/PCB views and component notes.
 - Seven project pages: ToF SLAM robot, pneumatic ironing workstation, FLOD hopper, Sense-Oil, implemented two-layer control PCB, proposed four-layer PCB, and posture-sensing research.
-- Original CAD, prototype galleries, keyboard-accessible image viewer, PDF drawings, BOMs and MATLAB simulation recording.
+- Project articles with brief narratives, interactive hero previews, reading progress and expandable engineering decisions.
+- Original CAD and prototype galleries with category filters, thumbnail navigation, fullscreen zoom, drag to pan and keyboard controls, plus PDF drawings, BOMs and MATLAB simulation recording.
+- Interactive skills diagram covering mechanical design, electronics, robotics and software, with actual project evidence and CV-grounded tools.
+- Persistent Studio and Midnight themes across the portfolio, project articles and archive.
 - Searchable, filterable, paginated engineering archive, with project links and pinned GitHub source revisions.
 - Career history updated from the September 2026 CV, including the Hype Invention robotics internship.
 - Responsive navigation, reduced-motion support, visible keyboard focus, accessible native image dialog, real mail/social/CV links and a custom 404 page.
@@ -41,13 +44,15 @@ This refreshes original assets and the file manifest. Review `data/projects.ts` 
 
 ## Design direction
 
-Graphite `#172336`, glacier `#A8DAF0`, cobalt `#2857D9`, cold paper `#F5F7FA`, and CAD stage `#E9EDF3`. Archivo gives the display type a mechanical, compact character; DM Sans keeps technical explanations legible. Large CAD images, restrained surfaces and an interactive specimen make the actual engineering the focal point.
+Atlantic `#16263D`, engineering blue `#315FE9`, glacier `#DAE5EF`, titanium `#F3F6F9` and white. Archivo gives the display type a mechanical, compact character; DM Sans keeps technical explanations legible. The Studio theme uses an open CAD stage, while Midnight shifts the surrounding surfaces into deeper blue tones. Original CAD inspection surfaces stay light. Asymmetric project imagery, prototype-to-CAD hover comparisons and a connected skills diagram make the engineering the focus.
 
-Inspo references reviewed: [Oz Gultekin](https://ozgur.design/) for typographic hierarchy, [Flexion Robotics](https://flexion.ai/) for cinematic space and engineering presence, and [Hugo Baron](https://nuageboi.fr/) for confident scale. The old portfolio's design and styles were not reused.
+References reviewed for the redesign: [Sanctuary Computer](https://www.sanctuary.computer/), [Origin](https://origin.tech/) and [Sanctuary AI](https://sanctuary.ai/), interpreted for work-led presentation, hardware presence and technical storytelling. The existing personal portfolio supplied factual context and original assets; its design was not reused.
 
 ## Validation
 
 `npm run build` validates compilation, TypeScript and all static project routes. With the production export served at `http://127.0.0.1:3100`, `node scripts/check-site.mjs` checks project filters, assembly switching, gallery keyboard controls, archive search/filter/pagination, project links, mobile navigation, layout widths, enlarged text, image loading and browser errors. Local screenshots and results are saved to ignored `qa/`.
+
+`node scripts/check-redesign.mjs` verifies component notes, pointer response, skills and their keyboard controls, prototype/CAD hover, theme persistence across routes, article image previews, expandable decisions, gallery filters, fullscreen zoom and drag to pan, experience expansion, mobile skills navigation and the themed archive. Both scripts accept `PORTFOLIO_TEST_ORIGIN` and `NEXT_PUBLIC_BASE_PATH` for local or deployed checks.
 
 ## GitHub Pages deployment
 

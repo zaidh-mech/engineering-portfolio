@@ -1,0 +1,26 @@
+'use client';
+import {useState} from 'react';
+import Link from 'next/link';
+import {Layers,Cpu,ScanLine,Code2,MoveUpRight,Check} from 'lucide-react';
+import {projects} from '@/data/projects';
+import {asset} from '@/lib/paths';
+
+const disciplines=[
+ {name:'Mechanical design',short:'Mechanics',icon:Layers,headline:'From a constraint to a working assembly.',description:'I develop parts and mechanisms around how they will be made, assembled and maintained.',tools:['SolidWorks','3D CAD','DFM','Engineering drawings','BOMs','3D printing'],abilities:['Parametric parts and coordinated assemblies','Mechanism geometry and machine interfaces','Fabrication drawings and prototype iteration'],evidence:['modified-iron','flod-hopper','tof-slam'],image:'/images/projects/iron/iron-cad.webp',note:'Applied in industrial workstations, configurable hoppers and the SLAM robot chassis.'},
+ {name:'Electronics & embedded',short:'Electronics',icon:Cpu,headline:'Give the system a purpose-built brain.',description:'I connect schematics, board layouts, sensors and firmware into a defined control architecture.',tools:['KiCad','PCB design','ESP32','ATmega328P','C/C++','Sensor integration'],abilities:['Schematics, routing and component documentation','Microcontroller acquisition and control logic','Power, connector and enclosure integration'],evidence:['pcb-first','pcb-advanced','sense-oil'],image:'/images/projects/tof/pcb-first.webp',note:'Explore both the implemented two-layer robot board and the later four-layer design proposal.'},
+ {name:'Robotics & control',short:'Robotics',icon:ScanLine,headline:'Connect sensing with purposeful motion.',description:'I work across robot sensing, motion control and mapping, with practical diagnostics connecting the subsystems.',tools:['MATLAB','SLAM','Sensor fusion','Motion control','ROS','Gazebo','Pneumatics'],abilities:['Time-of-flight sensing and odometry workflows','Robot control, diagnostics and MATLAB mapping','Automation integration and commissioning'],evidence:['tof-slam','modified-iron','flod-hopper'],image:'/images/projects/tof/robot-cad-open.webp',note:'ROS and Gazebo prototyping are recorded in my CV; the documented mapping workflow uses MATLAB.'},
+ {name:'Software & data',short:'Software',icon:Code2,headline:'Make hardware understandable through software.',description:'I write control and analysis tools that make system behavior visible and support engineering decisions.',tools:['Python','C/C++','MATLAB','Git','HTML / CSS','Power BI','ML fundamentals'],abilities:['Embedded firmware and operator interfaces','Telemetry processing and simulation workflows','Version control and technical documentation'],evidence:['tof-slam','sense-oil'],image:'/images/projects/tof/software/python-control-gui.webp',note:'Python, Git, Power BI and machine-learning training are documented in the September 2026 CV.'}
+];
+
+export default function SkillsExplorer() {
+  const [selected,setSelected]=useState(0);
+  const item=disciplines[selected];
+  function key(event:React.KeyboardEvent,index:number){if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();const n=(index+(event.key==='ArrowRight'?1:-1)+disciplines.length)%disciplines.length;setSelected(n);document.getElementById('skill-tab-'+n)?.focus()}}
+  return <div className="skills-explorer">
+    <div className="skill-network"><div className="network-heading"><span>One integrated approach</span><span>Four disciplines</span></div><svg viewBox="0 0 600 470" className="network-lines" aria-hidden="true"><circle cx="300" cy="230" r="135"/><circle cx="300" cy="230" r="85"/>{[[145,120],[455,120],[145,340],[455,340]].map(([x,y],i)=><path key={i} className={i===selected?'active':''} d={'M300 230 Q'+x+' 230 '+x+' '+y}/>)}<circle className="network-center-ring" cx="300" cy="230" r="49"/></svg><div className="network-center"><span>zr</span><p>Working<br/>systems</p></div><div className="skill-tabs" role="tablist" aria-label="Engineering disciplines">{disciplines.map((d,i)=><button id={'skill-tab-'+i} className={'skill-node node-'+i} role="tab" aria-selected={i===selected} aria-controls="skill-panel" tabIndex={i===selected?0:-1} onKeyDown={e=>key(e,i)} onClick={()=>setSelected(i)} key={d.name}><d.icon size={25}/><span>{d.short}</span><span className="node-dot"/></button>)}</div><div className="network-footer">Choose a discipline to see the skills in practice.</div></div>
+    <div id="skill-panel" className="skill-panel" role="tabpanel" aria-labelledby={'skill-tab-'+selected} key={selected}>
+      <div className="skill-panel-title"><item.icon size={22}/><span>{item.name}</span></div><h3>{item.headline}</h3><p className="skill-description">{item.description}</p><div className="skill-tools">{item.tools.map(t=><span key={t}>{t}</span>)}</div><ul className="skill-abilities">{item.abilities.map(a=><li key={a}><Check size={16}/>{a}</li>)}</ul>
+      <div className="skill-evidence"><div className="skill-evidence-image"><img src={asset(item.image)} alt={item.name+' project evidence'} loading="lazy" width="600" height="420"/></div><div><h4>See it in the work</h4>{item.evidence.map(slug=>{const p=projects.find(p=>p.slug===slug)!;return <Link key={slug} href={'/projects/'+slug+'/'}>{p.title}<MoveUpRight size={14}/></Link>})}</div></div><p className="skill-note">{item.note}</p>
+    </div>
+  </div>;
+}
