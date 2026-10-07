@@ -2,7 +2,7 @@
 import {useEffect,useState} from 'react';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
-import {Download,Menu,X,Mail,Linkedin,Github,MoveUpRight,ArrowUp} from 'lucide-react';
+import {Download,Menu,X,Mail,Linkedin,Github,ArrowUp,ArrowRight} from 'lucide-react';
 import {asset} from '@/lib/paths';
 import ThemeToggle from './theme-toggle';
 
@@ -11,17 +11,21 @@ export function Header() {
   const pathname=usePathname();
   useEffect(()=>{
     setOpen(false);
-    const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)})},{rootMargin:'-15% 0px -60% 0px'});
+    if(pathname.includes('/projects'))setActive('work');
+    else if(pathname.includes('/about'))setActive('about');
+    else if(pathname.includes('/archive'))setActive('files');
+    else setActive('');
+    const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting&&['work','skills','about','contact'].includes(e.target.id))setActive(e.target.id)})},{rootMargin:'-20% 0px -60% 0px'});
     document.querySelectorAll('section[id]').forEach(s=>observer.observe(s));
     return()=>observer.disconnect();
   },[pathname]);
-  return <header className="site-header"><div className="nav-shell">
-    <Link className="brand" href="/" aria-label="Zaidh Rizme home"><span className="brand-symbol">zr<span/></span><span>Zaidh Rizme<span>Engineering portfolio</span></span></Link>
-    <nav className={open?'navigation open':'navigation'} aria-label="Main navigation">{[{name:'Projects',id:'work'},{name:'Skills',id:'skills'},{name:'About',id:'about'},{name:'Contact',id:'contact'}].map(n=><Link key={n.id} href={'/#'+n.id} className={active===n.id?'active':''} onClick={()=>setOpen(false)}>{n.name}</Link>)}<Link href="/archive/" className="mobile-archive" onClick={()=>setOpen(false)}>File archive</Link></nav>
-    <div className="nav-actions"><ThemeToggle/><a className="nav-cv" href={asset('/Zaidh-Rizme-CV.pdf')} target="_blank" rel="noopener noreferrer">View CV <Download size={15}/></a><button className="menu-button" aria-label={open?'Close navigation':'Open navigation'} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button></div>
+  return <header className="portfolio-header"><div className="portfolio-nav-shell">
+    <Link className="portfolio-brand" href="/" aria-label="Zaidh Rizme home"><span className="portfolio-monogram">zr<span/></span><span>Zaidh Rizme<span>Mechatronics & robotics</span></span></Link>
+    <nav className={'portfolio-navigation '+(open?'open':'')} aria-label="Main navigation"><Link href="/about/" className={active==='about'?'active':''} onClick={()=>setOpen(false)}>About</Link><Link href="/projects/" className={active==='work'?'active':''} onClick={()=>setOpen(false)}>Projects</Link><Link href="/#skills" className={active==='skills'?'active':''} onClick={()=>setOpen(false)}>Skills</Link><Link href="/archive/" aria-label="File archive" className={active==='files'?'active':''} onClick={()=>setOpen(false)}>Files</Link></nav>
+    <div className="portfolio-nav-actions"><ThemeToggle/><a className="portfolio-cv" href={asset('/Zaidh-Rizme-CV.pdf')} target="_blank" rel="noopener noreferrer">CV<Download size={15}/></a><button className="portfolio-menu" aria-label={open?'Close navigation':'Open navigation'} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X size={22}/>:<Menu size={22}/>}</button></div>
   </div></header>;
 }
 
 export function Footer() {
-  return <><section id="contact" className="contact"><div className="shell"><div className="contact-top"><span><span className="status-dot"/>Connect with Zaidh</span><span>Colombo, Sri Lanka</span></div><div className="contact-main"><h2>Great systems<br/>start with a conversation.</h2><a className="contact-arrow" href="mailto:rizme.zaidh@gmail.com" aria-label="Email Zaidh Rizme"><MoveUpRight size={48}/></a></div><div className="contact-bottom"><a className="email-link" href="mailto:rizme.zaidh@gmail.com"><Mail size={21}/>rizme.zaidh@gmail.com</a><div className="social-links"><a href="https://www.linkedin.com/in/zaidhriz/" target="_blank" rel="noopener noreferrer"><Linkedin size={18}/>LinkedIn</a><a href="https://github.com/zaidh-mech" target="_blank" rel="noopener noreferrer"><Github size={18}/>GitHub</a><a href={asset('/Zaidh-Rizme-CV.pdf')} target="_blank" rel="noopener noreferrer"><Download size={18}/>CV</a></div></div></div></section><footer className="footer"><div className="shell"><Link href="/" className="footer-name">Zaidh Rizme</Link><p>Mechanics. Electronics. Software.</p><span>© 2026</span><a href="#top">Back to top<ArrowUp size={15}/></a></div></footer></>;
+  return <><section id="contact" className="portfolio-contact shell"><div><p className="section-context">Have a project in mind?</p><h2>Let’s work together.</h2><a className="portfolio-email" href="mailto:rizme.zaidh@gmail.com">rizme.zaidh@gmail.com<ArrowRight size={21}/></a></div><div className="portfolio-social"><a href="https://www.linkedin.com/in/zaidhriz/" target="_blank" rel="noopener noreferrer"><Linkedin size={18}/>LinkedIn</a><a href="https://github.com/zaidh-mech" target="_blank" rel="noopener noreferrer"><Github size={18}/>GitHub</a><a href={asset('/Zaidh-Rizme-CV.pdf')} target="_blank" rel="noopener noreferrer"><Download size={18}/>Engineering CV</a></div></section><footer className="portfolio-footer shell"><span>© 2026 Zaidh Rizme</span><span>Colombo, Sri Lanka</span><a href="#top">Back to top<ArrowUp size={14}/></a></footer></>;
 }

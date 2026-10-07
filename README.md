@@ -13,17 +13,19 @@ Open the URL printed by Next.js. For a production build, run `npm run build`; th
 
 ## Portfolio content
 
-- Open ToF robot inspector with pointer response, switchable assembly/enclosure/PCB views and component notes.
+- A personal introduction, toolkit chips and three featured project cards on the home page.
+- A dedicated project collection with all seven projects and category filters. Each card pairs a wide image carousel with project metadata, a short explanation and an article link.
+- ToF robot inspector inside its project article, with pointer response, switchable assembly/enclosure/PCB views and component notes.
 - Seven project pages: ToF SLAM robot, pneumatic ironing workstation, FLOD hopper, Sense-Oil, implemented two-layer control PCB, proposed four-layer PCB, and posture-sensing research.
 - Project articles with brief narratives, interactive hero previews, reading progress and expandable engineering decisions.
 - Original CAD and prototype galleries with category filters, thumbnail navigation, fullscreen zoom, drag to pan and keyboard controls, plus PDF drawings, BOMs and MATLAB simulation recording.
-- Interactive skills diagram covering mechanical design, electronics, robotics and software, with actual project evidence and CV-grounded tools.
+- Interactive skills tabs covering mechanical design, electronics, robotics and software, with actual project evidence and CV-grounded tools.
 - Persistent Studio and Midnight themes across the portfolio, project articles and archive.
 - Searchable, filterable, paginated engineering archive, with project links and pinned GitHub source revisions.
-- Career history updated from the September 2026 CV, including the Hype Invention robotics internship.
+- A separate About page with education and expandable career history, updated from the September 2026 CV, including the Hype Invention robotics internship.
 - Responsive navigation, reduced-motion support, visible keyboard focus, accessible native image dialog, real mail/social/CV links and a custom 404 page.
 
-Project copy is maintained in `data/projects.ts`. Media and document files are in `public/`. Archive entries are in `public/catalog.json` and counts are in `data/archive-stats.json`.
+Project metadata is maintained in `data/projects.ts` and article introductions in `data/stories.ts`. Media and document files are in `public/`. Archive entries are in `public/catalog.json` and counts are in `data/archive-stats.json`.
 
 ## Sources and evidence
 
@@ -44,15 +46,15 @@ This refreshes original assets and the file manifest. Review `data/projects.ts` 
 
 ## Design direction
 
-Atlantic `#16263D`, engineering blue `#315FE9`, glacier `#DAE5EF`, titanium `#F3F6F9` and white. Archivo gives the display type a mechanical, compact character; DM Sans keeps technical explanations legible. The Studio theme uses an open CAD stage, while Midnight shifts the surrounding surfaces into deeper blue tones. Original CAD inspection surfaces stay light. Asymmetric project imagery, prototype-to-CAD hover comparisons and a connected skills diagram make the engineering the focus.
+Atlantic `#16263D`, engineering blue `#315FE9`, glacier `#E5EDF4`, titanium `#F3F6F9` and white. Archivo gives the display type a mechanical, compact character; DM Sans keeps technical explanations legible. Studio uses paper-like surfaces, while Midnight shifts the surroundings into deeper blue tones. Original CAD inspection surfaces stay light. A centered introduction leads into a single-column project feed, with wide original imagery above concise editorial summaries. Image carousels, skill tabs and project-level inspection tools make the work interactive.
 
-References reviewed for the redesign: [Sanctuary Computer](https://www.sanctuary.computer/), [Origin](https://origin.tech/) and [Sanctuary AI](https://sanctuary.ai/), interpreted for work-led presentation, hardware presence and technical storytelling. The existing personal portfolio supplied factual context and original assets; its design was not reused.
+The user selected [manazir.dev](https://manazir.dev/) as the reference for content-card structure and site organization: large project previews, descriptive summaries and separate project stories. This portfolio uses its own typography, palette, branding and engineering imagery. Earlier references included [Sanctuary Computer](https://www.sanctuary.computer/), [Origin](https://origin.tech/) and [Sanctuary AI](https://sanctuary.ai/). The existing personal portfolio supplied factual context and original assets.
 
 ## Validation
 
-`npm run build` validates compilation, TypeScript and all static project routes. With the production export served at `http://127.0.0.1:3100`, `node scripts/check-site.mjs` checks project filters, assembly switching, gallery keyboard controls, archive search/filter/pagination, project links, mobile navigation, layout widths, enlarged text, image loading and browser errors. Local screenshots and results are saved to ignored `qa/`.
+`npm run build` validates compilation, TypeScript and all static routes. With the production export served at `http://127.0.0.1:3100`, `node scripts/check-site.mjs` checks featured cards, collection navigation and filters, assembly switching, gallery keyboard controls, archive search/filter/pagination, project links, mobile navigation, layout widths, enlarged text, image loading and browser errors. Local screenshots and results are saved to ignored `qa/`.
 
-`node scripts/check-redesign.mjs` verifies component notes, pointer response, skills and their keyboard controls, prototype/CAD hover, theme persistence across routes, article image previews, expandable decisions, gallery filters, fullscreen zoom and drag to pan, experience expansion, mobile skills navigation and the themed archive. Both scripts accept `PORTFOLIO_TEST_ORIGIN` and `NEXT_PUBLIC_BASE_PATH` for local or deployed checks.
+`node scripts/check-redesign.mjs` verifies component notes, pointer response, skills and their keyboard controls, card image carousels, theme persistence across routes, article image previews, expandable decisions, gallery filters, fullscreen zoom and drag to pan, the About page, experience expansion, mobile skills navigation and the themed archive. Both scripts accept `PORTFOLIO_TEST_ORIGIN` and `NEXT_PUBLIC_BASE_PATH` for local or deployed checks.
 
 ## GitHub Pages deployment
 

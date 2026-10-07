@@ -26,8 +26,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 ::selection{background:#bcd9ff;color:#16263d}
 .shell{width:min(1340px,calc(100% - 112px));margin-inline:auto}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
-.skip-link{position:fixed;z-index:100;left:24px;top:-90px;background:var(--surface);padding:12px 22px;border-radius:8px}
-.skip-link:focus{top:20px}
+.skip-link{position:fixed;z-index:100;left:24px;top:0;max-width:calc(100% - 48px);transform:translateY(calc(-100% - 24px));background:var(--surface);padding:12px 22px;border-radius:8px}
+.skip-link:focus{top:20px;transform:translateY(0)}
 .route-enter{animation:route-enter .5s ease both}
 .site-header{position:fixed;top:16px;left:0;right:0;z-index:40;pointer-events:none}
 .nav-shell{width:min(1396px,calc(100% - 48px));height:78px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:26px;padding:0 27px;background:var(--nav);border:1px solid color-mix(in srgb,var(--line),transparent 35%);border-radius:16px;backdrop-filter:blur(24px);box-shadow:0 6px 35px #1b355c08;pointer-events:auto}

@@ -14,15 +14,21 @@ await page.locator('img').evaluateAll(imgs=>imgs.forEach(i=>i.loading='eager'));
 await page.waitForFunction(()=>[...document.images].every(i=>i.complete));
 await page.screenshot({path:'qa/home-desktop.png'});
 await page.screenshot({path:'qa/home-full.png',fullPage:true});
+await expect(page.locator('.feed-card')).toHaveCount(3);
+await page.locator('nav.portfolio-navigation').getByRole('link',{name:'Projects',exact:true}).click();
+await page.waitForURL('**/projects/');
+await expect(page.getByRole('heading',{name:'The project collection.',exact:true})).toBeVisible();
+await page.getByRole('button',{name:'Mechanical',exact:true}).click();
+await expect(page.locator('.project-tile')).toHaveCount(2);
+await page.getByRole('button',{name:'Electronics',exact:true}).click();
+await expect(page.locator('.project-tile')).toHaveCount(3);
+await page.getByRole('button',{name:'All work',exact:true}).click();
+await expect(page.locator('.project-tile')).toHaveCount(7);
+await page.locator('.tile-tof-slam .project-main-link').click();await page.waitForURL('**/projects/tof-slam/');await page.getByRole('heading',{name:'ToF SLAM mobile robot',exact:true}).waitFor();
 await page.getByRole('button',{name:'Enclosure',exact:true}).click();
 await expect(page.getByRole('button',{name:'Enclosure',exact:true})).toHaveAttribute('aria-pressed','true');
 await page.getByRole('button',{name:'Control PCB',exact:true}).click();
 await expect(page.getByRole('button',{name:'Control PCB',exact:true})).toHaveAttribute('aria-pressed','true');
-await page.getByRole('button',{name:'Mechanical',exact:true}).click();
-await expect(page.locator('.project-tile')).toHaveCount(2);
-await page.getByRole('button',{name:'All work',exact:true}).click();
-await expect(page.locator('.project-tile')).toHaveCount(7);
-await page.locator('a.project-tile[href$="/projects/tof-slam/"]').click();await page.waitForURL('**/projects/tof-slam/');await page.getByRole('heading',{name:'ToF SLAM mobile robot',exact:true}).waitFor();
 await page.locator('a.all-files').click();await page.waitForURL('**/archive/?project=tof-slam');await page.waitForFunction(()=>document.querySelector('select')?.value==='tof-slam');
 for(const slug of ['tof-slam','modified-iron','flod-hopper','sense-oil','pcb-first','pcb-advanced','posture-research']){
  const response=await page.goto(base+'/projects/'+slug+'/',{waitUntil:'networkidle'});assert.equal(response.status(),200);assert.ok(await page.locator('h1').textContent());
@@ -48,12 +54,12 @@ await page.goto(base+'/archive/?project=pcb-advanced',{waitUntil:'networkidle'})
 const layouts=[];
 for(const width of [320,375,390,768,1440]){
  await page.setViewportSize({width,height:900});
- for(const route of ['/','/archive/','/projects/tof-slam/','/projects/modified-iron/']){
+ for(const route of ['/','/projects/','/about/','/archive/','/projects/tof-slam/','/projects/modified-iron/']){
   await page.goto(base+route,{waitUntil:'networkidle'});
   const size=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));layouts.push({width,route,...size});assert.ok(size.scroll<=size.width,'Horizontal overflow '+JSON.stringify(size)+' '+route);
   if(width===390&&route==='/'){
    await page.screenshot({path:'qa/home-mobile.png',fullPage:true});
-   await page.getByRole('button',{name:'Open navigation'}).click();await page.locator('nav.navigation').getByRole('link',{name:'File archive'}).click();await page.waitForURL('**/archive/');
+   await page.getByRole('button',{name:'Open navigation'}).click();await page.locator('nav.portfolio-navigation').getByRole('link',{name:'File archive'}).click();await page.waitForURL('**/archive/');
   }
  }
 }
@@ -61,5 +67,5 @@ await page.setViewportSize({width:1440,height:1000});await page.goto(base,{waitU
 for(const width of [390,1440]){await page.setViewportSize({width,height:1000});await page.evaluate(()=>{document.documentElement.style.fontSize='200%'});await page.screenshot({path:'qa/text-zoom-'+width+'.png',fullPage:true});const zoom=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));assert.ok(zoom.scroll<=zoom.width,'200% text overflow '+JSON.stringify(zoom));}
 assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
 await browser.close();
-fs.writeFileSync('qa/results.json',JSON.stringify({errors,failed,layouts,checks:'Assembly views, project filters, all project routes, image loading, modal keyboard controls, archive search/filter/pagination, project deep link, mobile menu, responsive widths, reduced motion'},null,2));
-console.log(JSON.stringify({passed:true,routes:9,responsiveLayouts:layouts.length,browserErrors:errors.length,failedRequests:failed.length}));
+fs.writeFileSync('qa/results.json',JSON.stringify({errors,failed,layouts,checks:'Featured project cards, project collection navigation and filters, assembly views in the robot article, all project routes, image loading, modal keyboard controls, archive search/filter/pagination, project deep link, mobile menu, responsive widths, enlarged text, reduced motion'},null,2));
+console.log(JSON.stringify({passed:true,routes:11,responsiveLayouts:layouts.length,browserErrors:errors.length,failedRequests:failed.length}));
