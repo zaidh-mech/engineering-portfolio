@@ -1,0 +1,9 @@
+'use client';
+import {asset} from '@/lib/paths';
+import {useState} from 'react';
+import Link from 'next/link';
+import {projects} from '@/data/projects';
+import {Plus} from 'lucide-react';
+const filters=['All work','Robotics','Mechanical','Electronics','Research'];
+const groups:Record<string,string[]>={'Robotics':['tof-slam'],'Mechanical':['modified-iron','flod-hopper'],'Electronics':['sense-oil','pcb-first','pcb-advanced'],'Research':['posture-research']};
+export default function ProjectGrid(){const[filter,setFilter]=useState('All work');const visible=projects.filter(p=>filter==='All work'||groups[filter].includes(p.slug));return <><div className="work-toolbar"><div className="filter-group" role="group" aria-label="Filter projects">{filters.map(f=><button key={f} onClick={()=>setFilter(f)} aria-pressed={f===filter}>{f}</button>)}</div><span className="result-count" aria-live="polite">{visible.length} projects</span></div><div className="project-grid">{visible.map((p,i)=><Link className={'project-tile '+(p.slug==='tof-slam'&&filter==='All work'?'featured-tile ':'')+'tile-'+p.slug} key={p.slug} href={'/projects/'+p.slug+'/'}><div className={'project-image '+(!p.image?'research-image':'')}><span className="project-status">{p.status}</span>{p.image?<img src={asset(p.image)} alt={p.title+' engineering project'} loading="lazy" width="1130" height="666"/>:<div className="research-art"><span>Hall-effect<br/>posture sensing</span><p>Wearable research / 2024</p></div>}<span className="project-open"><Plus size={22}/><span className="sr-only">View {p.title}</span></span></div><div className="project-caption"><div><p>{p.category}</p><h3>{p.title}</h3></div><span>{p.period.includes('2026')?'2026':p.period.includes('2025')?'2025':'2024'}</span></div>{p.slug==='tof-slam'&&filter==='All work'&&<p className="featured-summary">{p.summary}</p>}</Link>)}</div></>}

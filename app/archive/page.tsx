@@ -1,0 +1,5 @@
+import type {Metadata} from 'next';
+import ArchiveBrowser from '@/components/archive-browser';
+import stats from '@/data/archive-stats.json';
+export const metadata:Metadata={title:'Engineering file archive',description:'Explore original CAD, PCB layouts, firmware, MATLAB tools, project data and drawings.'};
+export default function ArchivePage(){return <main id="main" className="archive-page shell"><header className="archive-header"><p className="section-context">The source behind the systems</p><h1>Engineering,<br/>open for inspection.</h1><div className="archive-intro"><p>Browse native project files and technical evidence. Drawings open directly; source files open in their original GitHub archive.</p><div><strong>{stats.files}<span>indexed files</span></strong><strong>{stats.repositories}<span>source repositories</span></strong></div></div></header><ArchiveBrowser/><p className="archive-provenance">Archive snapshot: 7 October 2026. Repository links point to the source revision indexed from GitHub Brain. Generated simulations and emulated datasets retain their original filenames and context.</p></main>}
